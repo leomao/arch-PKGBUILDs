@@ -1,0 +1,30 @@
+pkgname=python-tensor2tensor
+_pkgname=tensor2tensor
+pkgver=1.11.0
+pkgrel=1
+pkgdesc="Library of deep learning models and datasets."
+arch=('any')
+_github='tensorflow/tensor2tensor'
+url="https://github.com/tensorflow/tensor2tensor"
+license=('Apache')
+depends=('python' 'python-bz2file' 'python-flask' 'python-future' 'python-gevent'
+'python-google-api-python-client' 'gunicorn' 'python-gym' 'python-h5py'
+'python-numpy' 'python-oauth2client' 'python-requests' 'python-scipy'
+'python-sympy' 'python-six' 'python-tqdm' 'python-tensorflow')
+makedepends=('python-setuptools')
+source=("$url/archive/v${pkgver}.tar.gz")
+md5sums=('c9599aa687294f95b209ba95656b77bc')
+
+build() {
+  msg "Building Python 3"
+  cd "$srcdir/${_pkgname}-${pkgver}"
+  python setup.py build
+}
+
+package() {
+  cd "$srcdir/${_pkgname}-${pkgver}"
+  python setup.py install --root="$pkgdir"/ --optimize=1 --skip-build
+  install -Dm 644 LICENSE "$pkgdir/usr/share/licenses/${pkgname}/LICENSE"
+}
+
+# vim:set ts=2 sw=2 et:
