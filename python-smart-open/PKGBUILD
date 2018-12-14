@@ -1,0 +1,26 @@
+# Maintainer: Maarten van Gompel <proycon at anaproy dot nl>
+
+_pkgname=smart_open
+pkgname=python-smart-open
+pkgver=1.7.1
+pkgrel=1
+pkgdesc="Utils for streaming large files (S3, HDFS, gzip, bz2...) "
+arch=('x86_64')
+_github='RaRe-Technologies/smart_open'
+url="https://github.com/RaRe-Technologies/smart_open"
+license=('LGPL')
+depends=('python' 'python-requests' 'python-boto' 'python-bz2file' 'python-boto3')
+makedepends=('python-setuptools')
+source=("https://github.com/RaRe-Technologies/${_pkgname}/archive/${pkgver}.tar.gz")
+md5sums=('23d370bcf9e3e4e16e1b40563254292d')
+
+
+build() {
+  cd ${srcdir}/$_pkgname-${pkgver//_/-}
+  python setup.py build
+}
+
+package() {
+  cd ${srcdir}/$_pkgname-${pkgver//_/-}
+  python setup.py install --prefix=/usr --root=${pkgdir} --optimize=1
+}
