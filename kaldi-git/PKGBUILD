@@ -1,0 +1,169 @@
+# Maintainer: Leo Mao <leomaoyw at gmail dot com>
+# Contributor: Jingbei Li <i@jingbei.lli>
+
+pkgname='kaldi-git'
+_pkgname='kaldi'
+pkgdesc='Speech recognition research toolkit (Built with Intel MKL)'
+provides=('kaldi' 'kaldi-openfst' 'kaldi-kaldi_lm' 'kaldi-irstlm' 'kaldi-sctk' 'kaldi-shp2pipe')
+conflicts=('kaldi' 'kaldi-openfst' 'kaldi-kaldi_lm' 'kaldi-irstlm' 'kaldi-sctk' 'kaldi-shp2pipe')
+pkgver=5.5.r8419.05d9a3d5e
+pkgrel=1
+makedepends=('git' 'rsync' 'gcc7' 'python' 'wget' 'subversion' 'sox' 'chrpath')
+depends=('python' 'sed')
+optdepends=(
+  'cuda: For GPU support'
+  'intel-mkl'
+  'openblas'
+  'python-numpy: For sequitur-g2p'
+  'python-six: For sequitur-g2p'
+  'sox'
+)
+arch=('x86_64')
+url='https://github.com/kaldi-asr/kaldi'
+license=('APACHE')
+source=("git+${url}")
+sha256sums=('SKIP')
+
+pkgver () {
+  cd "${_pkgname}"
+  (
+  set -o pipefail
+  echo -n `cat src/.version`.
+  git describe --long 2>/dev/null | sed 's/\([^-]*-g\)/r\1/;s/-/./g' ||
+    printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+  )
+}
+
+prepare(){
+  cd $srcdir/$_pkgname
+
+  if (pacman -Q cuda &> /dev/null); then
+    msg2 "Compiling with CUDA support"
+    _cuda_config_opts="--cudatk-dir=/opt/cuda"
+  else
+    msg2 "Compiling _without_ CUDA support"
+  fi
+
+  if (pacman -Q python-numpy python-six &> /dev/null); then
+    _install_sequitur=1
+  else
+    unset _install_sequitur
+  fi
+
+  if (pacman -Q intel-mkl &> /dev/null); then
+    _blas_config_opts="--mkl-root=/opt/intel/mkl"
+  elif (pacman -Q openblas &> /frb/null); then
+    _blas_config_opts="--openblas-root=/usr"
+  else
+    _blas_config_opts="--clapack-root=/usr"
+  fi
+}
+
+build () {
+  # tools
+  cd $srcdir/$_pkgname/tools
+  # define KALDI_ROOT in env.sh
+  echo "export KALDI_ROOT=/opt/$_pkgname" >> env.sh
+  mkdir -p python
+  touch python/.use_default_python
+  if [[ -z $(grep Dsize Makefile) ]]; then
+    sed -e "/^sctk_configured/a \\\tsed \'\/^DEFS\/s\/ -Dsize_t=unsigned\/\/\' -i sctk/src/sclite/makefile" -i Makefile
+  fi
+  make
+
+  ./extras/install_kaldi_lm.sh
+  ./extras/install_irstlm.sh
+  if [[ -n $_install_sequitur ]]; then
+    ./extras/install_sequitur.sh
+  fi
+
+  # compile kaldi
+  export CC=gcc-7
+  export CXX=g++-7
+  export CFLAGS=${CFLAGS/-fno-plt/}
+  export CXXFLAGS=${CFLAGS/-fno-plt/}
+  cd $srcdir/$_pkgname/src
+  ./configure $_cuda_config_opts \
+    --shared \
+    $_blas_config_opts \
+    --threaded-math=yes
+  # HACK: correct the rpath (we will install things into /opt/kaldi)
+  sed "s|rpath=$srcdir|rpath=/opt|g" -i kaldi.mk
+  make depend
+  make
+
+  for i in src/lib/*.so
+  do
+    if [[ -h $i ]]; then
+      _target=$(readlink $i)
+      rm $i
+      ln -sr $_target $i
+    fi
+  done
+}
+
+package () {
+  mkdir -p $pkgdir/opt/$_pkgname
+  cd $pkgdir/opt/$_pkgname
+
+  # tools
+  mkdir tools
+  cp -ra $srcdir/$_pkgname/tools/{extras,config,python,env.sh} tools/
+  ## openfst
+  mkdir -p tools/openfst
+  cp -ra $srcdir/$_pkgname/tools/openfst/{bin,include,lib,Makefile} tools/openfst/
+  ### fix rpath of openfst/{bin,lib}
+  chrpath -r "/opt/kaldi/tools/openfst/lib" tools/openfst/bin/*
+  for f in tools/openfst/lib/*.so; do
+    if chrpath -l $f; then
+      chrpath -r "/opt/kaldi/tools/openfst/lib" $f
+    fi
+  done
+  ## sctk
+  mkdir -p tools/sctk
+  cp -ra $srcdir/$_pkgname/tools/sctk/{bin,doc} tools/sctk/
+  ## sph2pipe
+  mkdir -p tools/sph2pipe_v2.5
+  cp -ra $srcdir/$_pkgname/tools/sph2pipe_v2.5/sph2pipe tools/sph2pipe_v2.5/
+  ## irstlm
+  mkdir -p tools/irstlm
+  cp -ra $srcdir/$_pkgname/tools/irstlm/{bin,lib,include} tools/irstlm/
+  ## kaldi_lm
+  mkdir -p tools/kaldi_lm
+  rsync -a --exclude='*.cc' --exclude='Makefile' --exclude='*.h' \
+    $srcdir/$_pkgname/tools/kaldi_lm/ tools/kaldi_lm/
+  ## sequitur-g2p
+  if [[ -d "$srcdir/$_pkgname/tools/sequitur-g2p" ]]; then
+    mkdir -p tools/sequitur-g2p
+    cp -ra $srcdir/$_pkgname/tools/sequitur-g2p/{bin,lib} tools/sequitur-g2p/
+  fi
+
+  # main
+  cp -ra $srcdir/$_pkgname/egs $pkgdir/opt/$_pkgname
+  for i in $scrdir/$_pkgname/src/lib/*.so
+  do
+    if [[ -h $i ]]; then
+      ln -rf $(realpath --relative-to=$scrdir/$_pkgname/src/lib/ $(realpath $i)) $i
+    fi
+  done
+  rsync -a \
+    --exclude='*.cc' --exclude='*.cu' \
+    --exclude='*.o' --exclude='*.a' --exclude='*.orig' \
+    --exclude='Makefile*' --exclude='README' \
+    $srcdir/$_pkgname/src/ $pkgdir/opt/$_pkgname/src/
+
+  rm -rf src/{doc,feat/test_data,lm/examples,lm/test_data,makefiles,onlinebin,probe}
+  find src \
+    -name '*.mk' \
+    -not -name 'kaldi.mk' \
+    -exec rm {} \;
+  find src -maxdepth 1 -type f -not -name 'kaldi.mk' -exec rm {} \;
+
+  if [[ -n $(grep $srcdir . -rIl) ]]; then
+    sed "s|$srcdir|/opt|g" -i $(grep $srcdir . -rIl)
+  fi
+  find . -name 'path.sh' -exec sed 's?^\(export KALDI_ROOT\)=.*$?\1=/opt/'$_pkgname'?' -i {} \;
+
+  install -dm755 "$pkgdir"/etc/ld.so.conf.d/
+  echo "/opt/$_pkgname/src/lib" > "$pkgdir"/etc/ld.so.conf.d/$_pkgname.conf
+}
