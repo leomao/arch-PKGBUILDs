@@ -1,0 +1,27 @@
+pkgname=python-audioread
+_pkgname=audioread
+pkgver=2.1.6
+pkgrel=2
+pkgdesc="cross-library (GStreamer + Core Audio + MAD + FFmpeg) audio decoding for Python"
+arch=('any')
+_github='beetbox/audioread'
+#_pypiname='audioread'
+url="https://github.com/beetbox/audioread"
+license=('MIT')
+depends=('python')
+makedepends=('python-setuptools')
+source=("$url/archive/v${pkgver}.tar.gz")
+md5sums=('5829ed9c0508bf25f88daf16e48b625c')
+
+build() {
+  msg "Building Python 3"
+  cd "$srcdir/${_pkgname}-${pkgver}"
+  python setup.py build
+}
+
+package() {
+  cd "$srcdir/${_pkgname}-${pkgver}"
+  python setup.py install --root="$pkgdir"/ --optimize=1
+}
+
+# vim:set ts=2 sw=2 et:
