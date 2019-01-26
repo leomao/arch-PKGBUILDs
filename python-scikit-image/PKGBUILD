@@ -1,0 +1,25 @@
+pkgname=python-scikit-image
+_pkgname=scikit-image
+pkgver=0.14.2
+pkgrel=1
+pkgdesc="Image Processing SciKit (Toolbox for SciPy)"
+arch=('x86_64')
+_github="scikit-image/scikit-image"
+url="http://scikit-image.org"
+license=('BSD')
+depends=('python' 'python-networkx' 'python-matplotlib' 'python-pywavelets' 'python-pillow' 'python-scipy' 'python-six')
+makedepends=('python-setuptools' 'cython')
+source=("https://github.com/scikit-image/scikit-image/archive/v$pkgver.tar.gz")
+md5sums=('43b8c6811c47df478a56ead85f1477d1')
+
+
+build() {
+  cd "$srcdir/$_pkgname-$pkgver"
+  python setup.py build
+}
+
+package() {
+  cd "$srcdir/$_pkgname-$pkgver"
+  python setup.py install --skip-build --prefix=/usr --root="$pkgdir" --optimize=1
+  install -Dm644 LICENSE.txt "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE.txt"
+}
