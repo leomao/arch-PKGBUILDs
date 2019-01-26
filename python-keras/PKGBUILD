@@ -1,0 +1,25 @@
+pkgname=python-keras
+_pkgname=keras
+pkgver=2.2.4
+pkgrel=1
+pkgdesc="The Python Deep Learning library"
+_github="keras-team/keras"
+url="https://keras.io/"
+arch=('x86_64')
+license=('MIT')
+depends=('python-numpy' 'python-scipy' 'python-h5py' 'python-six' 'python-yaml' 'python-tensorflow')
+optdepends=('python-keras-preprocessing' 'python-keras-applications')
+makedepends=('python' 'python-setuptools')
+source=("https://github.com/keras-team/keras/archive/$pkgver.tar.gz")
+md5sums=('be58efaeb9a670c387551c63fb09c71d')
+
+build() {
+  cd "$srcdir/$_pkgname-$pkgver"
+  python setup.py build
+}
+
+package() {
+  cd "$srcdir/$_pkgname-$pkgver"
+  python setup.py install --skip-build --prefix=/usr --root="$pkgdir" --optimize=1
+  install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}
