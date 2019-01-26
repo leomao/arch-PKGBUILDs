@@ -1,0 +1,24 @@
+pkgname=python-pywavelets
+_pkgname=pywt
+pkgver=1.0.1
+pkgrel=1
+pkgdesc="PyWavelets - Wavelet Transforms in Python"
+_github="PyWavelets/pywt"
+url="http://pywavelets.readthedocs.org"
+arch=('x86_64')
+license=('MIT')
+depends=('python-numpy')
+makedepends=('python' 'python-setuptools' 'cython')
+source=("https://github.com/PyWavelets/pywt/archive/v$pkgver.tar.gz")
+md5sums=('7f7b1e3d6c17a73f8c1f0850917fa24f')
+
+build() {
+  cd "$srcdir/$_pkgname-$pkgver"
+  python setup.py build
+}
+
+package() {
+  cd "$srcdir/$_pkgname-$pkgver"
+  python setup.py install --skip-build --prefix=/usr --root="$pkgdir" --optimize=1
+  install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}
