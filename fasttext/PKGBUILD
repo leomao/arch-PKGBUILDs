@@ -1,0 +1,36 @@
+# Maintainer: Leo Mao
+pkgname=fasttext
+_pkgname=fastText
+pkgver=0.2.0
+pkgrel=1
+pkgdesc="Library for fast text representation and classification"
+arch=('any')
+url="https://github.com/facebookresearch/fastText"
+_github='facebookresearch/fastText'
+license=('MIT')
+depends=('python' 'python-numpy' 'python-scipy')
+makedepends=('cmake' 'python-setuptools' 'pybind11')
+source=("https://github.com/facebookresearch/fastText/archive/v$pkgver.tar.gz")
+sha256sums=('71d24ffec9fcc4364554ecac2b3308d834178c903d16d090aa6be9ea6b8e480c')
+
+build() {
+  cd "${srcdir}/${_pkgname}-${pkgver}"
+  msg "Building binary"
+  mkdir -p build && cd build
+  cmake -DCMAKE_INSTALL_PREFIX="/usr" ..
+  make
+
+  msg "Building Python binding"
+  cd "${srcdir}/${_pkgname}-${pkgver}"
+  python setup.py build
+}
+
+package() {
+  cd "${srcdir}/${_pkgname}-${pkgver}/build"
+  make DESTDIR="$pkgdir" install
+
+  cd "${srcdir}/${_pkgname}-${pkgver}"
+  # install python binding
+  python setup.py install --root="${pkgdir}"/ --optimize=1 --skip-build
+  install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}
