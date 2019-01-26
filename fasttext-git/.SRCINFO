@@ -1,0 +1,20 @@
+pkgbase = fasttext-git
+	pkgdesc = Library for fast text representation and classification
+	pkgver = 0.2.0.r5.g0a57594
+	pkgrel = 1
+	url = https://github.com/facebookresearch/fastText
+	arch = any
+	license = MIT
+	makedepends = cmake
+	makedepends = python-setuptools
+	makedepends = pybind11
+	depends = python
+	depends = python-numpy
+	depends = python-scipy
+	provides = fasttext
+	conflicts = fasttext
+	source = git+https://github.com/facebookresearch/fastText
+	sha256sums = SKIP
+
+pkgname = fasttext-git
+
