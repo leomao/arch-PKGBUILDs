@@ -1,0 +1,20 @@
+pkgbase = python-gensim
+	pkgdesc = Python framework for fast Vector Space Modelling
+	pkgver = 3.7.0
+	pkgrel = 1
+	url = http://nlp.fi.muni.cz/projekty/gensim/
+	arch = x86_64
+	license = LGPL
+	makedepends = python-setuptools
+	makedepends = cython
+	depends = python
+	depends = python-numpy
+	depends = python-scipy
+	depends = python-six
+	depends = python-smart-open
+	optdepends = python-pyro
+	source = https://github.com/RaRe-Technologies/gensim/archive/3.7.0.tar.gz
+	md5sums = 28d8a86a0bd2afd6ca901e4456e7682a
+
+pkgname = python-gensim
+
