@@ -1,0 +1,22 @@
+pkgbase = python-librosa
+	pkgdesc = Python library for music and audio analysis
+	pkgver = 0.6.2
+	pkgrel = 1
+	url = http://librosa.github.io/librosa
+	arch = any
+	license = ISC
+	makedepends = python-setuptools
+	depends = python-audioread
+	depends = python-numpy
+	depends = python-scipy
+	depends = python-scikit-learn
+	depends = python-joblib
+	depends = python-decorator
+	depends = python-six
+	depends = python-resampy
+	depends = python-matplotlib
+	source = https://github.com/librosa/librosa/archive/0.6.2.tar.gz
+	md5sums = ab80bf9bb24792eda0bbe83e02305dd2
+
+pkgname = python-librosa
+
