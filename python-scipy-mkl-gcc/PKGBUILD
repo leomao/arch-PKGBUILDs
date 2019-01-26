@@ -1,0 +1,48 @@
+# Maintainer: Leo Mao
+# Previous Maintainer: Thomas Dziedzic < gostrc at gmail >
+# Contributor: Angel 'angvp' Velasquez <angvp[at]archlinux.com.ve>
+# Contributor: Ray Rashif <schiv@archlinux.org>
+# Contributor: Douglas Soares de Andrade <dsa@aur.archlinux.org>
+# Contributor: Bodor Dávid Gábor <david.gabor.bodor@gmail.com>
+# Contributor: Andrzej Giniewicz <gginiu@gmail.com>
+
+pkgname='python-scipy-mkl-gcc'
+pkgver=1.2.0
+pkgrel=1
+pkgdesc="SciPy is open-source software for mathematics, science, and engineering."
+arch=('x86_64')
+_github="scipy/scipy"
+url="http://www.scipy.org/"
+license=('BSD')
+depends=('python-numpy-mkl')
+provides=("python3-scipy=${pkgver}" "python-scipy=${pkgver}" "python-scipy-mkl=${pkgver}" "scipy=${pkgver}")
+replaces=('python-scipy')
+conflicts=('python-scipy')
+optdepends=('python-pillow: for image saving module')
+makedepends=('cython' 'gcc-fortran' 'python-numpy' 'python-setuptools')
+checkdepends=('python-pytest')
+source=(
+	"https://github.com/scipy/scipy/archive/v${pkgver}.tar.gz"
+)
+sha256sums=('4bb04ed281c55471b598f69eaa730825ddf613b9d9517834181c707dc4509fce')
+
+build() {
+	export LDFLAGS="-shared"
+
+	# build for python3
+	cd scipy-${pkgver}
+  python3 setup.py config_fc --fcompiler=gnu95 build
+
+}
+
+package() {
+
+	export LDFLAGS="-shared"
+
+	cd scipy-${pkgver}
+  python3 setup.py config_fc --fcompiler=gnu95 install \
+    --prefix=/usr --root=${pkgdir} --optimize=1
+
+	install -Dm644 LICENSE.txt \
+		"${pkgdir}/usr/share/licenses/python-scipy/LICENSE"
+}
