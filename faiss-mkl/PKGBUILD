@@ -1,0 +1,56 @@
+# Maintainer: Leo Mao
+
+##### Configuration Options
+# Specify GPU compute capability Fermi (2.x) or Kepler (3.x) or Maxwell (5.x)
+# Can be one of these:
+# Maxwell
+# sm52: GTX 980
+# sm53: Tegra TX1 / Tegra X1
+# sm60: Pascal P100
+# sm61: GTX 1080, 1070, 1060, Tesla P40
+##### End
+
+pkgname=faiss-mkl
+_pkgname=faiss
+pkgver=1.5.0
+pkgrel=1
+provides=('faiss')
+conflicts=('faiss')
+pkgdesc="A library for efficient similarity search and clustering of dense vectors. (with CUDA and MKL)"
+arch=("x86_64")
+_github="facebookresearch/faiss"
+url="https://github.com/facebookresearch/faiss"
+license=(BSD)
+depends=("cuda" "python" "python-numpy" "intel-mkl")
+makedepends=("swig")
+sha1sums=('8413a0138690d588832bee28faecff26a7d45789'
+          '2b4e7f671ecbb4e74e625613db279081e1666a46'
+          '5885d529b7f38a4bbc9b60adf4bb2b34d0f9a5de')
+source=("${url}/archive/v${pkgver}.tar.gz"
+        "${url}/pull/672.patch"
+        "makefile.inc")
+
+prepare() {
+  cd "${srcdir}/$_pkgname-$pkgver"
+  patch -Np1 < ../672.patch
+
+  cp "${srcdir}/makefile.inc" "${srcdir}/$_pkgname-$pkgver"
+}
+
+build() {
+  cd "${srcdir}/$_pkgname-$pkgver"
+  # CC=gcc-7 CXX=g++-7 LDFLAGS="-L/opt/intel/mkl/lib/intel64" \
+  # ./configure --with-cuda=/opt/cuda --prefix=/usr
+  make all
+  make -C gpu
+  make -C python build gpu
+}
+
+package() {
+  cd "${srcdir}/$_pkgname-$pkgver"
+  install -Dm644 LICENSE "$pkgdir/usr/share/licenses/${_pkgname}/LICENSE"
+  make DESTDIR="$pkgdir" install
+
+  cd python
+  python setup.py install --root="$pkgdir/" --optimize=1 --skip-build
+}
