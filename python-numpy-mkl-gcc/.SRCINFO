@@ -1,0 +1,28 @@
+pkgbase = python-numpy-mkl-gcc
+	pkgdesc = Scientific tools for Python compiled with intel mkl using gcc
+	pkgver = 1.16.0
+	pkgrel = 1
+	url = http://numpy.scipy.org/
+	arch = x86_64
+	license = custom
+	makedepends = python-setuptools
+	makedepends = python-nose
+	makedepends = cython
+	makedepends = glibc
+	makedepends = gcc-fortran
+	depends = intel-mkl
+	depends = python
+	provides = python3-numpy=1.16.0
+	provides = python-numpy=1.16.0
+	provides = python-numpy-mkl=1.16.0
+	conflicts = python3-numpy
+	conflicts = python-numpy
+	replaces = python3-numpy
+	options = staticlibs
+	source = https://github.com/numpy/numpy/archive/v1.16.0.tar.gz
+	source = site.cfg
+	sha256sums = c95533f25e01aaedf21d0212f8101801a56b41a0de4038d2c24dd5a2e0393854
+	sha256sums = ae2113417043800eb7fe3d2282ebb5bed051d8562e137563c4a0f785b7e25dc4
+
+pkgname = python-numpy-mkl-gcc
+
