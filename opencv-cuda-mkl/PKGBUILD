@@ -1,0 +1,98 @@
+# Maintainer: Ray Rashif <schiv@archlinux.org>
+# Contributor: Tobias Powalowski <tpowa@archlinux.org>
+
+pkgbase=opencv-cuda-mkl
+_pkgname=opencv
+pkgname=(opencv-cuda-mkl opencv-cuda-mkl-samples)
+pkgver=4.0.1
+pkgrel=1
+pkgdesc="Open Source Computer Vision Library"
+_github="opencv/opencv"
+arch=(x86_64)
+license=(BSD)
+url="http://opencv.org/"
+depends=(intel-tbb openexr gst-plugins-base libdc1394 libgphoto2 jasper ffmpeg cuda intel-mkl)
+makedepends=(cmake python-numpy python-setuptools mesa eigen hdf5 gtk3 vtk glew)
+optdepends=('opencv-samples: samples'
+            'gtk3: for the HighGUI module'
+            'vtk: for the viz module'
+            'hdf5: support for HDF5 format'
+            'opencl-icd-loader: For coding with OpenCL'
+            'python-numpy: Python interface')
+source=("$_pkgname-$pkgver.tar.gz::https://github.com/opencv/opencv/archive/$pkgver.zip"
+        "opencv_contrib-$pkgver.tar.gz::https://github.com/opencv/opencv_contrib/archive/$pkgver.tar.gz")
+sha256sums=('b79ccdc4797a959c5ab17249a8a302c066248ae070e4d7010e2d77a625fdb30a'
+            '0d8acbad4b7074cfaafd906a7419c23629179d5e98894714402090b192ef8237')
+
+prepare() {
+  mkdir -p build
+}
+
+build() {
+  cd build
+  # cmake's FindLAPACK doesn't add cblas to LAPACK_LIBRARIES, so we need to specify them manually
+  _pythonpath=`python -c "from sysconfig import get_path; print(get_path('platlib'))"`
+  cmake ../$_pkgname-$pkgver \
+    -DWITH_OPENCL=ON \
+    -DWITH_OPENGL=ON \
+    -DWITH_TBB=ON \
+    -DOpenGL_GL_PREFERENCE=GLVND \
+    -DBUILD_WITH_DEBUG_INFO=OFF \
+    -DBUILD_TESTS=OFF \
+    -DBUILD_PERF_TESTS=OFF \
+    -DBUILD_EXAMPLES=ON \
+    -DINSTALL_C_EXAMPLES=ON \
+    -DINSTALL_PYTHON_EXAMPLES=ON \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR=lib \
+    -DCPU_BASELINE_DISABLE=SSE3 \
+    -DCPU_BASELINE_REQUIRE=SSE2 \
+    -DWITH_NVCUVID=ON \
+    -DBUILD_opencv_cudacodec=OFF \
+    -DWITH_CUDA=ON \
+    -DCUDA_FAST_MATH=ON \
+    -DWITH_CUBLAS=ON \
+    -DCUDA_HOST_COMPILER=/usr/bin/gcc-7 \
+    -DOPENCV_EXTRA_MODULES_PATH="$srcdir/opencv_contrib-$pkgver/modules" \
+    -DOPENCV_SKIP_PYTHON_LOADER=ON \
+    -DOPENCV_PYTHON3_INSTALL_PATH=$_pythonpath \
+    -DMKL_ROOT_DIR='/opt/intel/mkl' \
+    -DOPENCV_GENERATE_PKGCONFIG=ON
+  make
+}
+
+package_opencv-cuda-mkl() {
+  provides=('opencv')
+  conflicts=('opencv')
+  cd build
+  make DESTDIR="$pkgdir" install
+
+  # install license file
+  install -Dm644 "$srcdir"/$_pkgname-$pkgver/LICENSE -t "$pkgdir"/usr/share/licenses/$pkgname
+
+  # separate samples package
+  cd "$pkgdir"/usr/share
+  mv opencv4/samples "$srcdir"/$_pkgname-samples
+
+  # install missing headers https://github.com/opencv/opencv/issues/13201
+  for _module in imgcodecs videoio photo; do
+    cp -r "$srcdir"/$_pkgname-$pkgver/modules/$_module/include/opencv2/$_module/legacy \
+      "$pkgdir"/usr/include/opencv4/opencv2/$_module
+  done
+}
+
+package_opencv-cuda-mkl-samples() {
+  pkgdesc+=" (samples)"
+  depends=("opencv=$pkgver")
+  provides=('opencv-samples')
+  conflicts=('opencv-samples')
+  unset optdepends
+
+  mkdir -p "$pkgdir"/usr/share/opencv
+  cp -r "$srcdir"/opencv-samples "$pkgdir"/usr/share/opencv/samples
+  # fix permissions
+  chmod 755 "$pkgdir"/usr/share/opencv/samples/*
+
+  # install license file
+  install -Dm644 "$srcdir"/opencv-$pkgver/LICENSE -t "$pkgdir"/usr/share/licenses/$pkgname
+}

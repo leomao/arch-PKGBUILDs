@@ -1,0 +1,46 @@
+pkgbase = opencv-cuda-mkl
+	pkgdesc = Open Source Computer Vision Library
+	pkgver = 4.0.1
+	pkgrel = 1
+	url = http://opencv.org/
+	arch = x86_64
+	license = BSD
+	makedepends = cmake
+	makedepends = python-numpy
+	makedepends = python-setuptools
+	makedepends = mesa
+	makedepends = eigen
+	makedepends = hdf5
+	makedepends = gtk3
+	makedepends = vtk
+	makedepends = glew
+	depends = intel-tbb
+	depends = openexr
+	depends = gst-plugins-base
+	depends = libdc1394
+	depends = libgphoto2
+	depends = jasper
+	depends = ffmpeg
+	depends = cuda
+	depends = intel-mkl
+	optdepends = opencv-samples: samples
+	optdepends = gtk3: for the HighGUI module
+	optdepends = vtk: for the viz module
+	optdepends = hdf5: support for HDF5 format
+	optdepends = opencl-icd-loader: For coding with OpenCL
+	optdepends = python-numpy: Python interface
+	source = opencv-4.0.1.tar.gz::https://github.com/opencv/opencv/archive/4.0.1.zip
+	source = opencv_contrib-4.0.1.tar.gz::https://github.com/opencv/opencv_contrib/archive/4.0.1.tar.gz
+	sha256sums = b79ccdc4797a959c5ab17249a8a302c066248ae070e4d7010e2d77a625fdb30a
+	sha256sums = 0d8acbad4b7074cfaafd906a7419c23629179d5e98894714402090b192ef8237
+
+pkgname = opencv-cuda-mkl
+	provides = opencv
+	conflicts = opencv
+
+pkgname = opencv-cuda-mkl-samples
+	pkgdesc = Open Source Computer Vision Library (samples)
+	depends = opencv=4.0.1
+	provides = opencv-samples
+	conflicts = opencv-samples
+
