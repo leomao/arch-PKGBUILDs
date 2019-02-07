@@ -1,6 +1,6 @@
 pkgbase = python-pytorch-cuda-mkl-git
 	pkgdesc = Tensors and Dynamic neural networks in Python with strong GPU acceleration
-	pkgver = 1.0rc0.r2238.g41e9b092a9
+	pkgver = 1.0rc0.r2296.g7c66ad7455
 	pkgrel = 1
 	url = http://pytorch.org
 	arch = x86_64
