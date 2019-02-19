@@ -6,7 +6,7 @@ _pkgname='kaldi'
 pkgdesc='Speech recognition research toolkit (Built with Intel MKL)'
 provides=('kaldi' 'kaldi-openfst' 'kaldi-kaldi_lm' 'kaldi-irstlm' 'kaldi-sctk' 'kaldi-shp2pipe')
 conflicts=('kaldi' 'kaldi-openfst' 'kaldi-kaldi_lm' 'kaldi-irstlm' 'kaldi-sctk' 'kaldi-shp2pipe')
-pkgver=5.5.r8419.05d9a3d5e
+pkgver=5.5.r8431.403c5ee02
 pkgrel=1
 makedepends=('git' 'rsync' 'gcc7' 'python' 'wget' 'subversion' 'sox' 'chrpath')
 depends=('python' 'sed')
@@ -92,7 +92,7 @@ build () {
   make depend
   make
 
-  for i in src/lib/*.so
+  for i in lib/*.so
   do
     if [[ -h $i ]]; then
       _target=$(readlink $i)
@@ -140,12 +140,6 @@ package () {
 
   # main
   cp -ra $srcdir/$_pkgname/egs $pkgdir/opt/$_pkgname
-  for i in $scrdir/$_pkgname/src/lib/*.so
-  do
-    if [[ -h $i ]]; then
-      ln -rf $(realpath --relative-to=$scrdir/$_pkgname/src/lib/ $(realpath $i)) $i
-    fi
-  done
   rsync -a \
     --exclude='*.cc' --exclude='*.cu' \
     --exclude='*.o' --exclude='*.a' --exclude='*.orig' \
