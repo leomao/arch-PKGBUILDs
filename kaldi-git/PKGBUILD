@@ -12,7 +12,8 @@ makedepends=('git' 'rsync' 'gcc7' 'python' 'wget' 'subversion' 'sox' 'chrpath')
 depends=('python' 'sed')
 optdepends=(
   'cuda: For GPU support'
-  'intel-mkl'
+  'intel-mkl: need intel-openmp as well'
+  'intel-openmp'
   'openblas'
   'python-numpy: For sequitur-g2p'
   'python-six: For sequitur-g2p'
@@ -50,7 +51,7 @@ prepare(){
     unset _install_sequitur
   fi
 
-  if (pacman -Q intel-mkl &> /dev/null); then
+  if (pacman -Q intel-mkl intel-openmp &> /dev/null); then
     _blas_config_opts="--mkl-root=/opt/intel/mkl"
   elif (pacman -Q openblas &> /frb/null); then
     _blas_config_opts="--openblas-root=/usr"
