@@ -1,6 +1,6 @@
 pkgbase = python-joblib
 	pkgdesc = joblib is set of tools to provide lightweight pipelining in Python.
-	pkgver = 0.13.1
+	pkgver = 0.13.2
 	pkgrel = 1
 	url = http://pypi.python.org/pypi/joblib
 	arch = any
@@ -8,8 +8,8 @@ pkgbase = python-joblib
 	makedepends = python-setuptools
 	depends = python
 	provides = python-joblib
-	source = joblib-0.13.1.zip::https://github.com/joblib/joblib/archive/0.13.1.zip
-	md5sums = 0f2ddc3653de8b2c9c54d8e3b9ec1f74
+	source = joblib-0.13.2.zip::https://github.com/joblib/joblib/archive/0.13.2.zip
+	md5sums = c29dba54a3334620897b5575a88001aa
 
 pkgname = python-joblib
 
