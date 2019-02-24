@@ -7,7 +7,7 @@
 # Contributor: Andrzej Giniewicz <gginiu@gmail.com>
 
 pkgname='python-scipy-mkl-gcc'
-pkgver=1.2.0
+pkgver=1.2.1
 pkgrel=1
 pkgdesc="SciPy is open-source software for mathematics, science, and engineering."
 arch=('x86_64')
@@ -24,7 +24,7 @@ checkdepends=('python-pytest')
 source=(
 	"https://github.com/scipy/scipy/archive/v${pkgver}.tar.gz"
 )
-sha256sums=('4bb04ed281c55471b598f69eaa730825ddf613b9d9517834181c707dc4509fce')
+sha256sums=('d4b9c1c1dee37ffd1653fd62ea52587212d3b1570c927f16719fd7c4077c0d0a')
 
 build() {
 	export LDFLAGS="-shared"
