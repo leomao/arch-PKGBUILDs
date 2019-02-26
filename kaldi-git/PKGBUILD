@@ -6,7 +6,7 @@ _pkgname='kaldi'
 pkgdesc='Speech recognition research toolkit (Built with Intel MKL)'
 provides=('kaldi' 'kaldi-openfst' 'kaldi-kaldi_lm' 'kaldi-irstlm' 'kaldi-sctk' 'kaldi-shp2pipe')
 conflicts=('kaldi' 'kaldi-openfst' 'kaldi-kaldi_lm' 'kaldi-irstlm' 'kaldi-sctk' 'kaldi-shp2pipe')
-pkgver=5.5.r8431.403c5ee02
+pkgver=5.5.r8434.b0fc09d1a
 pkgrel=1
 makedepends=('git' 'rsync' 'gcc7' 'python' 'wget' 'subversion' 'sox' 'chrpath')
 depends=('python' 'sed')
@@ -53,7 +53,7 @@ prepare(){
 
   if (pacman -Q intel-mkl intel-openmp &> /dev/null); then
     _blas_config_opts="--mkl-root=/opt/intel/mkl"
-  elif (pacman -Q openblas &> /frb/null); then
+  elif (pacman -Q openblas &> /dev/null); then
     _blas_config_opts="--openblas-root=/usr"
   else
     _blas_config_opts="--clapack-root=/usr"

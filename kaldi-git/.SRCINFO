@@ -1,6 +1,6 @@
 pkgbase = kaldi-git
 	pkgdesc = Speech recognition research toolkit (Built with Intel MKL)
-	pkgver = 5.5.r8431.403c5ee02
+	pkgver = 5.5.r8434.b0fc09d1a
 	pkgrel = 1
 	url = https://github.com/kaldi-asr/kaldi
 	arch = x86_64
