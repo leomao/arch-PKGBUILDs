@@ -1,7 +1,7 @@
 # Maintainer: Leo Mao <leomaoyw at gmail dot com>
 pkgname=python-torchvision-git
 _pkgname=vision
-pkgver=0.2.1.r62.g8bd05e6
+pkgver=0.2.1.r104.g138b5c2
 pkgrel=1
 pkgdesc="Datasets, Transforms and Models specific to Computer Vision"
 arch=('any')
