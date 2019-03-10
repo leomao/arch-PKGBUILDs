@@ -5,10 +5,10 @@ PKGDIR=$(realpath $(dirname $0))
 
 cd $PKGDIR
 
-./build_srcinfo.sh
-
 allpkg=$(ls -d */ | tr -d '/')
-torder=$(aur graph $PKGDIR/*/.SRCINFO | tsort | tac)
+# we want to build optdepends first if any presents...
+torder=$(sed -r 's/optdepends(.*): .*$/depends\1/g' $PKGDIR/*/.SRCINFO \
+	| aur graph | tsort | tac)
 nonorder=$(comm -23 <(echo $allpkg | sort) <(echo $torder | sort) | sed '/^$/d')
 
 for pdir in $(echo $torder $nonorder); do
