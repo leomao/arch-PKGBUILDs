@@ -7,10 +7,10 @@ cd $PKGDIR
 
 allpkg=$(ls -d */ | tr -d '/')
 # we want to build optdepends first if any presents...
-torder=$(sed -E 's/optdepends([^:]*)(: .*)?$/depends\1/g' $PKGDIR/*/.SRCINFO \
-	| aur graph | tsort | tac)
+torder=($(sed -E 's/optdepends([^:]*)(: .*)?$/depends\1/g' $PKGDIR/*/.SRCINFO \
+	| aur graph | tsort | tac))
 
-for pdir in $(echo $torder $nonorder); do
+for pdir in ${torder[@]}; do
 	if [[ $pdir =~ ".*-git" ]]; then
 		continue
 	fi
