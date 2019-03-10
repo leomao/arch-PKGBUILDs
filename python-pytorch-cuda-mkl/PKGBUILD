@@ -139,6 +139,8 @@ build() {
   export TORCH_NVCC_FLAGS="-Xfatbin -compress-all"
   # add following line for multiple compute capabilities
   #export TORCH_CUDA_ARCH_LIST="3.5 5.2 6.0 6.1 7.0 7.5+PTX"
+  export PYTORCH_BUILD_VERSION=${pkgver}
+  export PYTORCH_BUILD_NUMBER=1
   python setup.py build
 }
 
