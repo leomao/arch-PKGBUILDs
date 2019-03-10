@@ -1,6 +1,6 @@
 pkgbase = python-tensor2tensor
 	pkgdesc = Library of deep learning models and datasets.
-	pkgver = 1.11.0
+	pkgver = 1.13.0
 	pkgrel = 1
 	url = https://github.com/tensorflow/tensor2tensor
 	arch = any
@@ -23,8 +23,8 @@ pkgbase = python-tensor2tensor
 	depends = python-six
 	depends = python-tqdm
 	depends = python-tensorflow
-	source = https://github.com/tensorflow/tensor2tensor/archive/v1.11.0.tar.gz
-	md5sums = c9599aa687294f95b209ba95656b77bc
+	source = https://github.com/tensorflow/tensor2tensor/archive/v1.13.0.tar.gz
+	md5sums = 4dca0ae287ce2e9b6d3be8e63e33dadb
 
 pkgname = python-tensor2tensor
 
