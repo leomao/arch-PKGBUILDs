@@ -1,6 +1,6 @@
 pkgbase = faiss-mkl
 	pkgdesc = A library for efficient similarity search and clustering of dense vectors. (with CUDA and MKL)
-	pkgver = 1.5.0
+	pkgver = 1.5.1
 	pkgrel = 1
 	url = https://github.com/facebookresearch/faiss
 	arch = x86_64
@@ -12,12 +12,10 @@ pkgbase = faiss-mkl
 	depends = intel-mkl
 	provides = faiss
 	conflicts = faiss
-	source = https://github.com/facebookresearch/faiss/archive/v1.5.0.tar.gz
-	source = https://github.com/facebookresearch/faiss/pull/672.patch
-	source = makefile.inc
-	sha1sums = 8413a0138690d588832bee28faecff26a7d45789
-	sha1sums = 2b4e7f671ecbb4e74e625613db279081e1666a46
-	sha1sums = 5885d529b7f38a4bbc9b60adf4bb2b34d0f9a5de
+	source = https://github.com/facebookresearch/faiss/archive/v1.5.1.tar.gz
+	source = https://github.com/facebookresearch/faiss/pull/771.patch
+	sha1sums = 40ea0fa92e17658674b37d4b6b521ac7f065952b
+	sha1sums = af31a11f30af3e4d7206fe30928d919cf3dffdb7
 
 pkgname = faiss-mkl
 

@@ -12,7 +12,7 @@
 
 pkgname=faiss-mkl
 _pkgname=faiss
-pkgver=1.5.0
+pkgver=1.5.1
 pkgrel=1
 provides=('faiss')
 conflicts=('faiss')
@@ -23,27 +23,22 @@ url="https://github.com/facebookresearch/faiss"
 license=(BSD)
 depends=("cuda" "python" "python-numpy" "intel-mkl")
 makedepends=("swig")
-sha1sums=('8413a0138690d588832bee28faecff26a7d45789'
-          '2b4e7f671ecbb4e74e625613db279081e1666a46'
-          '5885d529b7f38a4bbc9b60adf4bb2b34d0f9a5de')
+sha1sums=('40ea0fa92e17658674b37d4b6b521ac7f065952b'
+          'af31a11f30af3e4d7206fe30928d919cf3dffdb7')
 source=("${url}/archive/v${pkgver}.tar.gz"
-        "${url}/pull/672.patch"
-        "makefile.inc")
+        "${url}/pull/771.patch")
 
 prepare() {
   cd "${srcdir}/$_pkgname-$pkgver"
-  patch -Np1 < ../672.patch
-
-  cp "${srcdir}/makefile.inc" "${srcdir}/$_pkgname-$pkgver"
+  patch -Np1 < "${srcdir}/771.patch"
 }
 
 build() {
   cd "${srcdir}/$_pkgname-$pkgver"
-  # CC=gcc-7 CXX=g++-7 LDFLAGS="-L/opt/intel/mkl/lib/intel64" \
-  # ./configure --with-cuda=/opt/cuda --prefix=/usr
+  export LDFLAGS="-L/opt/intel/mkl/lib/intel64"
+  ./configure --with-cuda=/opt/cuda --prefix=/usr
   make all
-  make -C gpu
-  make -C python build gpu
+  make -C python
 }
 
 package() {
