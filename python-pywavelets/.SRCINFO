@@ -1,6 +1,6 @@
 pkgbase = python-pywavelets
 	pkgdesc = PyWavelets - Wavelet Transforms in Python
-	pkgver = 1.0.2
+	pkgver = 1.0.3
 	pkgrel = 1
 	url = http://pywavelets.readthedocs.org
 	arch = x86_64
@@ -9,8 +9,8 @@ pkgbase = python-pywavelets
 	makedepends = python-setuptools
 	makedepends = cython
 	depends = python-numpy
-	source = https://github.com/PyWavelets/pywt/archive/v1.0.2.tar.gz
-	md5sums = 5279c3f931287d6773264e03a45d3f3b
+	source = https://github.com/PyWavelets/pywt/archive/v1.0.3.tar.gz
+	md5sums = 5f77b35cc63c6987f806aedb0f7504ef
 
 pkgname = python-pywavelets
 
