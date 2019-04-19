@@ -4,7 +4,7 @@
 
 pkgname=python-gensim
 _pkgname=gensim
-pkgver=3.7.1
+pkgver=3.7.2
 pkgrel=1
 pkgdesc="Python framework for fast Vector Space Modelling"
 arch=('x86_64')
@@ -16,7 +16,7 @@ depends=('python' 'python-numpy' 'python-scipy' 'python-six' 'python-smart-open'
 makedepends=('python-setuptools' 'cython')
 optdepends=('python-pyro')
 source=("https://github.com/RaRe-Technologies/${_pkgname}/archive/${pkgver}.tar.gz")
-md5sums=('f7ec9ef9f87b34bdad5586b79efff07d')
+md5sums=('8c78080add07f699400455a8bc3da61f')
 
 
 build() {
