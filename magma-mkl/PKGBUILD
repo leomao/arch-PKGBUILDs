@@ -16,7 +16,7 @@ _GPU_TARGET="sm_61 sm_75"
 
 pkgname=magma-mkl
 pkgver=2.5.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Provides a dense linear algebra library similar to LAPACK but for heterogeneous/hybrid architectures, starting with current 'Multicore+GPU' systems. (with CUDA and MKL)"
 arch=("x86_64")
 url="http://icl.cs.utk.edu/magma/"
