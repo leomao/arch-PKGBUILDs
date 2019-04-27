@@ -2,7 +2,7 @@
 
 _pkgname=smart_open
 pkgname=python-smart-open
-pkgver=1.8.2
+pkgver=1.8.3
 pkgrel=1
 pkgdesc="Utils for streaming large files (S3, HDFS, gzip, bz2...) "
 arch=('x86_64')
@@ -11,8 +11,8 @@ url="https://github.com/RaRe-Technologies/smart_open"
 license=('LGPL')
 depends=('python' 'python-requests' 'python-boto' 'python-bz2file' 'python-boto3')
 makedepends=('python-setuptools')
-source=("https://github.com/RaRe-Technologies/${_pkgname}/archive/${pkgver}.tar.gz")
-md5sums=('87cbd6f73b08d81c51283ae0b7e3330f')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/RaRe-Technologies/${_pkgname}/archive/${pkgver}.tar.gz")
+md5sums=('efd63ffd80c6553c291df6ba49692e9b')
 
 
 build() {
