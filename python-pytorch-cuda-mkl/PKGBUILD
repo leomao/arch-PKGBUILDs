@@ -3,7 +3,7 @@
 
 pkgname="python-pytorch-cuda-mkl"
 _pkgname="pytorch"
-pkgver=1.0.1
+pkgver=1.1.0
 pkgrel=1
 pkgdesc="Tensors and Dynamic neural networks in Python with strong GPU acceleration"
 arch=('x86_64')
@@ -17,97 +17,12 @@ provides=('python-pytorch')
 conflicts=('python-pytorch')
 source=(
   "${_pkgname}::git+https://github.com/pytorch/pytorch.git#tag=v$pkgver"
-  "git+https://github.com/Maratyszcza/cpuinfo.git"
-  "git+https://github.com/ARM-software/ComputeLibrary.git"
-  "git+https://github.com/Maratyszcza/NNPACK.git"
-  "git+https://github.com/Maratyszcza/FP16.git"
-  "git+https://github.com/Maratyszcza/FXdiv.git"
-  "git+https://github.com/Maratyszcza/psimd.git"
-  "git+https://github.com/Maratyszcza/pthreadpool.git"
-  "git+https://github.com/pytorch/QNNPACK"
-  "git+https://github.com/google/benchmark.git"
-  "git+https://github.com/NVlabs/cub.git"
-  "git+https://github.com/eigenteam/eigen-git-mirror.git"
-  "git+https://github.com/pytorch/fbgemm"
-  "git+https://github.com/google/gemmlowp.git"
-  "git+https://github.com/facebookincubator/gloo"
-  "git+https://github.com/google/googletest.git"
-  "git+https://github.com/intel/ideep"
-  "git+https://github.com/Yangqing/ios-cmake.git"
-  "git+https://github.com/NVIDIA/nccl"
-  "git+https://github.com/intel/ARM_NEON_2_x86_SSE.git"
-  "git+https://github.com/onnx/onnx.git"
-  "git+https://github.com/onnx/onnx-tensorrt"
-  "git+https://github.com/google/protobuf.git"
-  "git+https://github.com/pybind/pybind11.git"
-  "git+https://github.com/PeachPy/enum34.git"
-  "git+https://github.com/Maratyszcza/PeachPy.git"
-  "git+https://github.com/benjaminp/six.git"
-  "git+https://github.com/shibatch/sleef"
-  "git+https://github.com/facebook/zstd.git"
 )
-sha256sums=('SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP')
+sha256sums=('SKIP')
 
 prepare() {
   cd "${_pkgname}"
 
-  git submodule init
-  git config submodule."third-party/cpuinfo".url	${srcdir}/cpuinfo
-  git config submodule."third_party/ComputeLibrary".url	${srcdir}/ComputeLibrary
-  git config submodule."third_party/NNPACK".url	${srcdir}/NNPACK
-  git config submodule."third_party/NNPACK_deps/FP16".url	${srcdir}/FP16
-  git config submodule."third_party/NNPACK_deps/FXdiv".url	${srcdir}/FXdiv
-  git config submodule."third_party/NNPACK_deps/psimd".url	${srcdir}/psimd
-  git config submodule."third_party/NNPACK_deps/pthreadpool".url	${srcdir}/pthreadpool
-  git config submodule."third_party/QNNPACK".url	${srcdir}/QNNPACK
-  git config submodule."third_party/benchmark".url	${srcdir}/benchmark
-  git config submodule."third_party/cub".url	${srcdir}/cub
-  git config submodule."third_party/eigen".url	${srcdir}/eigen-git-mirror
-  git config submodule."third_party/fbgemm".url	${srcdir}/fbgemm
-  git config submodule."third_party/gemmlowp/gemmlowp".url	${srcdir}/gemmlowp
-  git config submodule."third_party/gloo".url	${srcdir}/gloo
-  git config submodule."third_party/googletest".url	${srcdir}/googletest
-  git config submodule."third_party/ideep".url	${srcdir}/ideep
-  git config submodule."third_party/ios-cmake".url	${srcdir}/ios-cmake
-  git config submodule."third_party/nccl/nccl".url	${srcdir}/nccl
-  git config submodule."third_party/neon2sse".url	${srcdir}/ARM_NEON_2_x86_SSE
-  git config submodule."third_party/onnx".url	${srcdir}/onnx
-  git config submodule."third_party/onnx-tensorrt".url	${srcdir}/onnx-tensorrt
-  git config submodule."third_party/protobuf".url	${srcdir}/protobuf
-  git config submodule."third_party/pybind11".url	${srcdir}/pybind11
-  git config submodule."third_party/python-enum".url	${srcdir}/enum34
-  git config submodule."third_party/python-peachpy".url	${srcdir}/PeachPy
-  git config submodule."third_party/python-six".url	${srcdir}/six
-  git config submodule."third_party/sleef".url	${srcdir}/sleef
-  git config submodule."third_party/zstd".url	${srcdir}/zstd
   git submodule update --init --recursive
 
   #cp -a "${srcdir}/${_pkgname}-${pkgver}" "${srcdir}/${_pkgname}-${pkgver}-cuda"
@@ -126,8 +41,8 @@ build() {
   cd "$srcdir/${_pkgname}"
   # Uncomment and modify the following line to enable Intel MKL and magma support
   #export CMAKE_PREFIX_PATH=/opt/intel/mkl/include:/opt/intel/mkl/lib/intel64:
-  export CC=gcc-7
-  export CXX=g++-7
+  export CC=gcc
+  export CXX=g++
   export BUILD_BINARY=1
   export USE_OPENCV=1
   export MAGMA_HOME=/opt/magma
