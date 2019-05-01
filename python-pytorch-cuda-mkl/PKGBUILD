@@ -20,6 +20,10 @@ source=(
 )
 sha256sums=('SKIP')
 
+get_pyver () {
+  python -c 'import sys; print(str(sys.version_info[0]) + "." + str(sys.version_info[1]))'
+}
+
 prepare() {
   cd "${_pkgname}"
 
@@ -63,6 +67,28 @@ package() {
   cd "$srcdir/${_pkgname}"
   python setup.py install --root="$pkgdir"/ --optimize=1 --skip-build
   install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE.txt"
+  # put CMake files in correct place
+  install -d "${pkgdir}/usr/lib/cmake"
+  pytorchpath="usr/lib/python$(get_pyver)/site-packages/torch"
+  mv "${pkgdir}/${pytorchpath}/share/cmake"/* \
+     "${pkgdir}/usr/lib/cmake/"
+  rm -rf "${pkgdir}/${pytorchpath}/share/cmake"
+  install -d "${pkgdir}/usr/bin"
+  install -d "${pkgdir}/usr/lib"
+  mv "${pkgdir}/${pytorchpath}/include" "${pkgdir}/usr/include"
+  mv "${pkgdir}/${pytorchpath}/lib" "${pkgdir}/usr/lib/pytorch"
+  rm -rf "${pkgdir}/usr/include/pybind11"
+  # softlink C++ API to the correct place
+  ln -s /usr/include "${pkgdir}/${pytorchpath}/include"
+  ln -s /usr/lib/pytorch "${pkgdir}/${pytorchpath}/lib"
+  ln -s "/${pytorchpath}/bin/torch_shm_manager" "${pkgdir}/usr/bin/torch_shm_manager"
+  # clean up duplicates
+  # TODO: move towards direct shared library dependecy of:
+  #   c10, caffe2, libcpuinfo, CUDA RT, gloo, GTest, Intel MKL,
+  #   NVRTC, ONNX, protobuf, libthreadpool, QNNPACK
+  # ldconfig
+  install -d "${pkgdir}/etc/ld.so.conf.d"
+  echo '/usr/lib/pytorch' > "${pkgdir}/etc/ld.so.conf.d/pytorch.conf"
 }
 
 # vim:set ts=2 sw=2 et:
