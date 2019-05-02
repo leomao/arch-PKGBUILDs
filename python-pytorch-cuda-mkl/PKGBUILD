@@ -10,8 +10,8 @@ arch=('x86_64')
 _github="pytorch/pytorch"
 url="http://pytorch.org"
 license=('BSD')
-depends=('python' 'python-yaml' 'python-numpy' 'opencv' 'nccl'
-         'cuda' 'cudnn' 'magma' 'intel-mkl')
+depends=('pybind11' 'python' 'python-yaml' 'python-numpy'
+         'opencv' 'openmp' 'nccl' 'cuda' 'cudnn' 'magma' 'intel-mkl')
 makedepends=('git' 'cmake' 'python-setuptools')
 provides=('python-pytorch')
 conflicts=('python-pytorch')
