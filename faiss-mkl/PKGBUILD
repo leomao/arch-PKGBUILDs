@@ -25,7 +25,7 @@ depends=("cuda" "python" "python-numpy" "intel-mkl")
 makedepends=("swig")
 sha1sums=('40ea0fa92e17658674b37d4b6b521ac7f065952b'
           'af31a11f30af3e4d7206fe30928d919cf3dffdb7')
-source=("${url}/archive/v${pkgver}.tar.gz"
+source=("$pkgname-$pkgver.tar.gz::${url}/archive/v${pkgver}.tar.gz"
         "${url}/pull/771.patch")
 
 prepare() {
