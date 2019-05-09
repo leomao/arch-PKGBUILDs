@@ -8,10 +8,13 @@ pkgbase = python-pytorch-cuda-mkl
 	makedepends = git
 	makedepends = cmake
 	makedepends = python-setuptools
+	depends = google-glog
+	depends = gflags
 	depends = pybind11
 	depends = python
 	depends = python-yaml
 	depends = python-numpy
+	depends = protobuf
 	depends = opencv
 	depends = openmp
 	depends = nccl
@@ -22,7 +25,9 @@ pkgbase = python-pytorch-cuda-mkl
 	provides = python-pytorch
 	conflicts = python-pytorch
 	source = pytorch::git+https://github.com/pytorch/pytorch.git#tag=v1.1.0
+	source = change_default_config.patch
 	sha256sums = SKIP
+	sha256sums = 0d736ef1ecd471b79beb1eac3d7d72699bd39ee362d62a138cf47ca1174e60fd
 
 pkgname = python-pytorch-cuda-mkl
 
