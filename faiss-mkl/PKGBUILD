@@ -12,7 +12,7 @@
 
 pkgname=faiss-mkl
 _pkgname=faiss
-pkgver=1.5.1
+pkgver=1.5.2
 pkgrel=1
 provides=('faiss')
 conflicts=('faiss')
@@ -23,15 +23,12 @@ url="https://github.com/facebookresearch/faiss"
 license=(BSD)
 depends=("cuda" "python" "python-numpy" "intel-mkl")
 makedepends=("swig")
-sha1sums=('40ea0fa92e17658674b37d4b6b521ac7f065952b'
-          'af31a11f30af3e4d7206fe30928d919cf3dffdb7')
-source=("$pkgname-$pkgver.tar.gz::${url}/archive/v${pkgver}.tar.gz"
-        "${url}/pull/771.patch")
+sha1sums=('dad5c2ee10b08b7f7e77bfcfb8b6f2d58dc4b8e9')
+source=("$pkgname-$pkgver.tar.gz::${url}/archive/v${pkgver}.tar.gz")
 
-prepare() {
-  cd "${srcdir}/$_pkgname-$pkgver"
-  patch -Np1 < "${srcdir}/771.patch"
-}
+#prepare() {
+  #cd "${srcdir}/$_pkgname-$pkgver"
+#}
 
 build() {
   cd "${srcdir}/$_pkgname-$pkgver"
