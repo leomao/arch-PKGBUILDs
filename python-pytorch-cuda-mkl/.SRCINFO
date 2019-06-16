@@ -1,7 +1,7 @@
 pkgbase = python-pytorch-cuda-mkl
 	pkgdesc = Tensors and Dynamic neural networks in Python with strong GPU acceleration
 	pkgver = 1.1.0
-	pkgrel = 1
+	pkgrel = 2
 	url = http://pytorch.org
 	arch = x86_64
 	license = BSD
@@ -10,14 +10,15 @@ pkgbase = python-pytorch-cuda-mkl
 	makedepends = python-setuptools
 	depends = google-glog
 	depends = gflags
+	depends = opencv
+	depends = openmp
+	depends = nccl
 	depends = pybind11
 	depends = python
 	depends = python-yaml
 	depends = python-numpy
 	depends = protobuf
-	depends = opencv
-	depends = openmp
-	depends = nccl
+	depends = ffmpeg
 	depends = cuda
 	depends = cudnn
 	depends = magma
@@ -25,9 +26,7 @@ pkgbase = python-pytorch-cuda-mkl
 	provides = python-pytorch
 	conflicts = python-pytorch
 	source = pytorch::git+https://github.com/pytorch/pytorch.git#tag=v1.1.0
-	source = change_default_config.patch
 	sha256sums = SKIP
-	sha256sums = 0d736ef1ecd471b79beb1eac3d7d72699bd39ee362d62a138cf47ca1174e60fd
 
 pkgname = python-pytorch-cuda-mkl
 
