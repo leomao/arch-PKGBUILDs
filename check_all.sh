@@ -16,3 +16,4 @@ for pkgdir in $(ls -d */ | tr -d '/'); do
 		bash check_update.sh $pkgdir
 	fi
 done
+printf '\n'
