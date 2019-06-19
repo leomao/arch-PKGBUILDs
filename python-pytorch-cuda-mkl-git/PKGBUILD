@@ -1,87 +1,22 @@
 # Maintainer: Sven-Hendrik Haase <sh@lutzhaase.com>
 # Contributor: Stephen Zhang <zsrkmyn at gmail dot com>
 
-pkgbase="python-pytorch-cuda-mkl-git"
-pkgname=(
-  #"python-pytorch-mkl-git"
-  "python-pytorch-cuda-mkl-git"
-)
+pkgname="python-pytorch-cuda-mkl-git"
 _pkgname="pytorch"
-pkgver=1.0rc0.r2296.g7c66ad7455
+pkgver=1.0rc0.r5091.g4b1df5c1f5
 pkgrel=1
 pkgdesc="Tensors and Dynamic neural networks in Python with strong GPU acceleration"
 arch=('x86_64')
 _github="pytorch/pytorch"
 url="http://pytorch.org"
 license=('BSD')
-makedepends=('git' 'cmake' 'python-setuptools'
-             'intel-mkl'
-             'magma' 'cuda' 'cudnn' 'nccl')
-depends=(
-    'python' 'python-yaml' 'python-numpy'
-    'intel-mkl'
-    'magma' 'cuda' 'cudnn' 'nccl'
-)
-source=(
-  "git+https://github.com/pytorch/pytorch.git"
-  "git+https://github.com/Maratyszcza/cpuinfo.git"
-  "git+https://github.com/ARM-software/ComputeLibrary.git"
-  "git+https://github.com/Maratyszcza/NNPACK.git"
-  "git+https://github.com/Maratyszcza/FP16.git"
-  "git+https://github.com/Maratyszcza/FXdiv.git"
-  "git+https://github.com/Maratyszcza/psimd.git"
-  "git+https://github.com/Maratyszcza/pthreadpool.git"
-  "git+https://github.com/pytorch/QNNPACK"
-  "git+https://github.com/google/benchmark.git"
-  "git+https://github.com/NVlabs/cub.git"
-  "git+https://github.com/eigenteam/eigen-git-mirror.git"
-  "git+https://github.com/pytorch/fbgemm"
-  "git+https://github.com/google/gemmlowp.git"
-  "git+https://github.com/facebookincubator/gloo"
-  "git+https://github.com/google/googletest.git"
-  "git+https://github.com/intel/ideep"
-  "git+https://github.com/Yangqing/ios-cmake.git"
-  "git+https://github.com/NVIDIA/nccl"
-  "git+https://github.com/intel/ARM_NEON_2_x86_SSE.git"
-  "git+https://github.com/onnx/onnx.git"
-  "git+https://github.com/onnx/onnx-tensorrt"
-  "git+https://github.com/google/protobuf.git"
-  "git+https://github.com/pybind/pybind11.git"
-  "git+https://github.com/PeachPy/enum34.git"
-  "git+https://github.com/Maratyszcza/PeachPy.git"
-  "git+https://github.com/benjaminp/six.git"
-  "git+https://github.com/shibatch/sleef"
-  "git+https://github.com/facebook/zstd.git"
-)
-sha256sums=('SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP')
+depends=('google-glog' 'gflags' 'opencv' 'openmp' 'nccl' 'pybind11' 'python' 'python-yaml' 'python-numpy'
+         'protobuf' 'ffmpeg' 'cuda' 'cudnn' 'magma' 'intel-mkl')
+makedepends=('git' 'cmake' 'python-setuptools')
+provides=('python-pytorch')
+conflicts=('python-pytorch')
+source=("${_pkgname}::git+https://github.com/pytorch/pytorch.git")
+sha256sums=('SKIP')
 
 pkgver () {
   cd "${_pkgname}"
@@ -91,42 +26,35 @@ pkgver () {
   )
 }
 
-prepare() {
-  cd ${_pkgname}
+get_pyver () {
+  python -c 'import sys; print(str(sys.version_info[0]) + "." + str(sys.version_info[1]))'
+}
 
-  git submodule init
-  git config submodule."third-party/cpuinfo".url	${srcdir}/cpuinfo
-  git config submodule."third_party/ComputeLibrary".url	${srcdir}/ComputeLibrary
-  git config submodule."third_party/NNPACK".url	${srcdir}/NNPACK
-  git config submodule."third_party/NNPACK_deps/FP16".url	${srcdir}/FP16
-  git config submodule."third_party/NNPACK_deps/FXdiv".url	${srcdir}/FXdiv
-  git config submodule."third_party/NNPACK_deps/psimd".url	${srcdir}/psimd
-  git config submodule."third_party/NNPACK_deps/pthreadpool".url	${srcdir}/pthreadpool
-  git config submodule."third_party/QNNPACK".url	${srcdir}/QNNPACK
-  git config submodule."third_party/benchmark".url	${srcdir}/benchmark
-  git config submodule."third_party/cub".url	${srcdir}/cub
-  git config submodule."third_party/eigen".url	${srcdir}/eigen-git-mirror
-  git config submodule."third_party/fbgemm".url	${srcdir}/fbgemm
-  git config submodule."third_party/gemmlowp/gemmlowp".url	${srcdir}/gemmlowp
-  git config submodule."third_party/gloo".url	${srcdir}/gloo
-  git config submodule."third_party/googletest".url	${srcdir}/googletest
-  git config submodule."third_party/ideep".url	${srcdir}/ideep
-  git config submodule."third_party/ios-cmake".url	${srcdir}/ios-cmake
-  git config submodule."third_party/nccl/nccl".url	${srcdir}/nccl
-  git config submodule."third_party/neon2sse".url	${srcdir}/ARM_NEON_2_x86_SSE
-  git config submodule."third_party/onnx".url	${srcdir}/onnx
-  git config submodule."third_party/onnx-tensorrt".url	${srcdir}/onnx-tensorrt
-  git config submodule."third_party/protobuf".url	${srcdir}/protobuf
-  git config submodule."third_party/pybind11".url	${srcdir}/pybind11
-  git config submodule."third_party/python-enum".url	${srcdir}/enum34
-  git config submodule."third_party/python-peachpy".url	${srcdir}/PeachPy
-  git config submodule."third_party/python-six".url	${srcdir}/six
-  git config submodule."third_party/sleef".url	${srcdir}/sleef
-  git config submodule."third_party/zstd".url	${srcdir}/zstd
+prepare() {
+  cd "${_pkgname}"
+
   git submodule update --init --recursive
 
-  #rsync -a --exclude='.git' "${srcdir}/${_pkgname}/" "${srcdir}/${_pkgname}-py3/"
-  #cp -a "${srcdir}/${_pkgname}" "${srcdir}/${_pkgname}-cuda/"
+  #cp -a "${srcdir}/${_pkgname}-${pkgver}" "${srcdir}/${_pkgname}-${pkgver}-cuda"
+  export CC=gcc
+  export CXX=g++
+
+  export USE_MKLDNN=0
+  # export BUILD_CUSTOM_PROTOBUF=0
+  # export BUILD_SHARED_LIBS=0
+  export USE_FFMPEG=1
+  export USE_GFLAGS=1
+  export USE_GLOG=1
+  export BUILD_BINARY=1
+  export USE_OPENCV=1
+  export USE_SYSTEM_NCCL=1
+  export MAGMA_HOME=/opt/magma
+  export CUDAHOSTCXX=g++
+  export CUDA_HOME=/opt/cuda
+  export CUDNN_LIB_DIR=/usr/lib
+  export CUDNN_INCLUDE_DIR=/usr/include
+  export TORCH_NVCC_FLAGS="-Xfatbin -compress-all"
+  #export TORCH_CUDA_ARCH_LIST="3.5 5.2 6.0 6.1 7.0 7.5+PTX"
 }
 
 build() {
@@ -141,37 +69,44 @@ build() {
 
   msg2 "Building with cuda"
   cd "$srcdir/${_pkgname}"
-  #TORCH_CUDA_ARCH_LIST="3.5 5.2 6.0 6.1 7.0 7.2 7.5+PTX" \
-  CMAKE_PREFIX_PATH=/opt/intel/mkl/include:/opt/intel/mkl/lib/intel64 \
-  CC=gcc-7 \
-  CXX=g++-7 \
-  USE_OPENCV=1 \
-  MAGMA_HOME=/opt/magma \
-  USE_CUDA=1 \
-  CUDA_HOME=/opt/cuda \
-  USE_CUDNN=1 \
-  CUDNN_LIB_DIR=/usr/lib \
-  CUDNN_INCLUDE_DIR=/usr/include \
-  TORCH_NVCC_FLAGS="-Xfatbin -compress-all" \
+  # Uncomment and modify the following line to enable Intel MKL and magma support
+  #export CMAKE_PREFIX_PATH=/opt/intel/mkl/include:/opt/intel/mkl/lib/intel64:
+  export USE_CUDA=1
+  export USE_CUDNN=1
+  # add following line for multiple compute capabilities
   python setup.py build
 }
 
-#package_python-pytorch-mkl-git() {
-  #provides=('python-pytorch')
-  #conflicts=('python-pytorch' 'python-pytorch-cuda')
-  #depends+=('python' 'python-yaml' 'python-numpy' 'intel-mkl' 'magma')
-  #cd "$srcdir/${_pkgname}-py3"
-  #python setup.py install --root="$pkgdir"/ --optimize=1 --skip-build
-  #install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE.txt"
-#}
-
-package_python-pytorch-cuda-mkl-git() {
-  provides=('python-pytorch' 'python-pytorch-cuda')
-  conflicts=('python-pytorch' 'python-pytorch-cuda')
-  #cd "$srcdir/${_pkgname}-cuda"
+package() {
   cd "$srcdir/${_pkgname}"
+  # Prevent setup.py from re-running CMake and rebuilding
+  sed -e 's/RUN_BUILD_DEPS = True/RUN_BUILD_DEPS = False/g' -i setup.py
+
   python setup.py install --root="$pkgdir"/ --optimize=1 --skip-build
-  install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE.txt"
+
+  install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+
+  pytorchpath="usr/lib/python$(get_pyver)/site-packages/torch"
+  install -d "${pkgdir}/usr/lib"
+
+  # put CMake files in correct place
+  mv "${pkgdir}/${pytorchpath}/share/cmake" "${pkgdir}/usr/lib/cmake/"
+
+  # put C++ API in correct place
+  mv "${pkgdir}/${pytorchpath}/include" "${pkgdir}/usr/include"
+  mv "${pkgdir}/${pytorchpath}/lib"/*.so* "${pkgdir}/usr/lib/"
+
+  # clean up duplicates
+  # TODO: move towards direct shared library dependecy of:
+  #   c10, caffe2, libcpuinfo, CUDA RT, gloo, GTest, Intel MKL,
+  #   NVRTC, ONNX, protobuf, libthreadpool, QNNPACK
+  rm -rf "${pkgdir}/usr/include/pybind11"
+
+  # python module is hardcoded to look there at runtime
+  ln -s /usr/include "${pkgdir}/${pytorchpath}/include"
+  find "${pkgdir}"/usr/lib -type f -name "*.so*" -print0 | while read -rd $'\0' _lib; do
+    ln -s ${_lib#"$pkgdir"} "${pkgdir}/${pytorchpath}/lib/"
+  done
 }
 
 # vim:set ts=2 sw=2 et:
