@@ -140,7 +140,7 @@ package () {
     $srcdir/$_pkgname/tools/kaldi_lm/ tools/kaldi_lm/
   ## sequitur-g2p
   if [[ -d "$srcdir/$_pkgname/tools/sequitur-g2p" ]]; then
-    install -Dm755 tools/sequitur-g2p
+    install -dm755 tools/sequitur-g2p
     cp -ra $srcdir/$_pkgname/tools/sequitur-g2p/{bin,lib} tools/sequitur-g2p/
   fi
 
