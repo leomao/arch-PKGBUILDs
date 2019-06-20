@@ -6,9 +6,9 @@ _pkgname='kaldi'
 pkgdesc='Speech recognition research toolkit (Built with Intel MKL)'
 provides=('kaldi' 'kaldi-openfst' 'kaldi-kaldi_lm' 'kaldi-irstlm' 'kaldi-sctk' 'kaldi-shp2pipe')
 conflicts=('kaldi' 'kaldi-openfst' 'kaldi-kaldi_lm' 'kaldi-irstlm' 'kaldi-sctk' 'kaldi-shp2pipe')
-pkgver=5.5.r8455.2f95609f0
+pkgver=5.5.r8611.10f2fcba9
 pkgrel=1
-makedepends=('git' 'rsync' 'gcc7' 'python' 'wget' 'subversion' 'sox' 'chrpath')
+makedepends=('git' 'rsync' 'gcc' 'python' 'wget' 'subversion' 'sox' 'chrpath')
 depends=('python' 'sed')
 optdepends=(
   'cuda: For GPU support'
@@ -79,8 +79,8 @@ build () {
   fi
 
   # compile kaldi
-  export CC=gcc-7
-  export CXX=g++-7
+  export CC=gcc
+  export CXX=g++
   export CFLAGS=${CFLAGS/-fno-plt/}
   export CXXFLAGS=${CFLAGS/-fno-plt/}
   cd $srcdir/$_pkgname/src
@@ -121,21 +121,21 @@ package () {
     fi
   done
   ## sctk
-  mkdir -p tools/sctk
+  install -dm755 tools/sctk
   cp -ra $srcdir/$_pkgname/tools/sctk/{bin,doc} tools/sctk/
   ## sph2pipe
-  mkdir -p tools/sph2pipe_v2.5
+  install -dm755 tools/sph2pipe_v2.5
   cp -ra $srcdir/$_pkgname/tools/sph2pipe_v2.5/sph2pipe tools/sph2pipe_v2.5/
   ## irstlm
-  mkdir -p tools/irstlm
+  install -dm755 tools/irstlm
   cp -ra $srcdir/$_pkgname/tools/irstlm/{bin,lib,include} tools/irstlm/
   ## kaldi_lm
-  mkdir -p tools/kaldi_lm
+  install -dm755 tools/kaldi_lm
   rsync -a --exclude='*.cc' --exclude='Makefile' --exclude='*.h' \
     $srcdir/$_pkgname/tools/kaldi_lm/ tools/kaldi_lm/
   ## sequitur-g2p
   if [[ -d "$srcdir/$_pkgname/tools/sequitur-g2p" ]]; then
-    mkdir -p tools/sequitur-g2p
+    install -Dm755 tools/sequitur-g2p
     cp -ra $srcdir/$_pkgname/tools/sequitur-g2p/{bin,lib} tools/sequitur-g2p/
   fi
 
