@@ -51,8 +51,10 @@ prepare(){
     unset _install_sequitur
   fi
 
+  _omp_config_opts="--omp-libdir=/usr/lib"
   if (pacman -Q intel-mkl intel-openmp &> /dev/null); then
     _blas_config_opts="--mkl-root=/opt/intel/mkl"
+    _omp_config_opts="--omp-libdir=/opt/intel/lib/intel64"
   elif (pacman -Q openblas &> /dev/null); then
     _blas_config_opts="--openblas-root=/usr"
   else
@@ -84,8 +86,11 @@ build () {
   export CFLAGS=${CFLAGS/-fno-plt/}
   export CXXFLAGS=${CFLAGS/-fno-plt/}
   cd $srcdir/$_pkgname/src
+  sed -e "s/MIN_UNSUPPORTED_GCC_VER=\"9.0\"/MIN_UNSUPPORTED_GCC_VER=\"9.2\"/" -i configure
+  sed -e "s/MIN_UNSUPPORTED_GCC_VER_NUM=90000;/MIN_UNSUPPORTED_GCC_VER_NUM=92000;/" -i configure
   ./configure $_cuda_config_opts \
     --shared \
+    $_omp_config_opts \
     $_blas_config_opts \
     --threaded-math=yes
   # HACK: correct the rpath (we will install things into /opt/kaldi)
