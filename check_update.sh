@@ -14,6 +14,7 @@ if [[ -n $_github ]]; then
   latest_ver=$(curl -L https://github.com/$_github/releases 2> /dev/null | grep -oP '(?<=tag/)v?[0-9.]+(?=")' | head -n 1)
   latest_ver=${latest_ver/v/}
 elif [[ -n $_pypiname ]]; then
+  _pypiname=${_pypiname//_/-}
   jsondata=$(curl https://pypi.org/pypi/$_pypiname/json 2> /dev/null)
   latest_ver=$(echo $jsondata | jq -r ".info.version")
   source_url=$(echo $jsondata | jq '.urls | map(select(.packagetype == "sdist")) | .[0].url')
