@@ -1,7 +1,7 @@
 # Maintainer: Leo Mao
 pkgname=fasttext
 _pkgname=fastText
-pkgver=0.2.0
+pkgver=0.9.1
 pkgrel=1
 pkgdesc="Library for fast text representation and classification"
 arch=('any')
@@ -11,7 +11,7 @@ license=('MIT')
 depends=('python' 'python-numpy' 'python-scipy')
 makedepends=('cmake' 'python-setuptools' 'pybind11')
 source=("https://github.com/facebookresearch/fastText/archive/v$pkgver.tar.gz")
-sha256sums=('71d24ffec9fcc4364554ecac2b3308d834178c903d16d090aa6be9ea6b8e480c')
+sha256sums=('254ace2fc8dc3bea0fc6ad4897a221eb85c1e9adfa61d130b43398193ca1f061')
 
 build() {
   cd "${srcdir}/${_pkgname}-${pkgver}"
