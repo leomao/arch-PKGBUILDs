@@ -46,10 +46,10 @@ _remove_static_objects_openmp=true
 ########################################
 
 _year='2019'
-_v_a='3'
-_v_b='199'
+_v_a='4'
+_v_b='243'
 
-_dir_nr='15275'
+_dir_nr='15540'
 
 # year, version a and version b found in /opt/intel/compilers_and_libraries_YEAR_A_B
 
@@ -75,7 +75,7 @@ source=(
   'intel-openmp.conf'
 )
 
-sha256sums=('06de2b54f4812e7c39a118536259c942029fe1d6d8918ad9df558a83c4162b8f'
+sha256sums=('fcac7b0369665d93f0c4dd98afe2816aeba5410e2b760655fe55fc477f8f33d0'
             'a856326362e9b80c19dc237cbf66bf3d96a69bd7ad1baff99ec9849f8208348c'
             'fa983e00cc9005d88317af331f132e1cabcb5fbbf8d13971ab9f8ccd9bb9ee9f'
             '181000db2ac371967fefdf2b33f76dbed7f8d625d409ce19ab8e324f9d90a69f'
