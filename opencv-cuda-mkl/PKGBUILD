@@ -33,6 +33,7 @@ build() {
   # cmake's FindLAPACK doesn't add cblas to LAPACK_LIBRARIES, so we need to specify them manually
   _pythonpath=`python -c "from sysconfig import get_path; print(get_path('platlib'))"`
   cmake ../$_pkgname-$pkgver \
+    -DENABLE_PRECOMPILED_HEADERS=OFF \
     -DWITH_OPENCL=ON \
     -DWITH_OPENGL=ON \
     -DWITH_TBB=ON \
