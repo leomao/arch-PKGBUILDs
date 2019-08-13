@@ -5,7 +5,7 @@ pkgbase=opencv-cuda-mkl
 _pkgname=opencv
 pkgname=(opencv-cuda-mkl opencv-cuda-mkl-samples)
 pkgver=4.1.1
-pkgrel=1
+pkgrel=2
 pkgdesc="Open Source Computer Vision Library"
 _github="opencv/opencv"
 arch=(x86_64)
@@ -31,6 +31,8 @@ prepare() {
 build() {
   cd build
   # cmake's FindLAPACK doesn't add cblas to LAPACK_LIBRARIES, so we need to specify them manually
+  export CC=gcc-8
+  export CXX=g++-8
   _pythonpath=`python -c "from sysconfig import get_path; print(get_path('platlib'))"`
   cmake ../$_pkgname-$pkgver \
     -DENABLE_PRECOMPILED_HEADERS=OFF \
