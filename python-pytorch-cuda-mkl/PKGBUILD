@@ -3,22 +3,24 @@
 
 pkgname="python-pytorch-cuda-mkl"
 _pkgname="pytorch"
-pkgver=1.1.0
-pkgrel=3
+pkgver=1.2.0
+pkgrel=2
 pkgdesc="Tensors and Dynamic neural networks in Python with strong GPU acceleration"
 arch=('x86_64')
 _github="pytorch/pytorch"
 url="http://pytorch.org"
 license=('BSD')
 depends=('google-glog' 'gflags' 'opencv' 'openmp' 'nccl' 'pybind11' 'python' 'python-yaml' 'python-numpy'
-         'protobuf' 'ffmpeg' 'cuda' 'cudnn' 'magma' 'intel-mkl')
+         'protobuf' 'ffmpeg' 'python-future' 'cuda' 'cudnn' 'magma' 'intel-mkl')
 makedepends=('git' 'cmake' 'python-setuptools')
-provides=('python-pytorch')
+provides=('python-pytorch' 'python-pytorch-cuda')
 conflicts=('python-pytorch')
 source=(
   "${_pkgname}::git+https://github.com/pytorch/pytorch.git#tag=v$pkgver"
+  "https://github.com/pytorch/pytorch/pull/24143.patch"
 )
-sha256sums=('SKIP')
+sha256sums=('SKIP'
+            '773971a391e2d517630b37150ec20bd4ba06181c5c9767d51cd7358729b4aa5a')
 
 get_pyver () {
   python -c 'import sys; print(str(sys.version_info[0]) + "." + str(sys.version_info[1]))'
@@ -29,9 +31,12 @@ prepare() {
 
   git submodule update --init --recursive
 
+  patch -Np1 < "${srcdir}/24143.patch"
+
   #cp -a "${srcdir}/${_pkgname}-${pkgver}" "${srcdir}/${_pkgname}-${pkgver}-cuda"
-  export CC=gcc
-  export CXX=g++
+  export CC=gcc-8
+  export CXX=g++-8
+  export VERBOSE=1
   export PYTORCH_BUILD_VERSION="${pkgver}"
   export PYTORCH_BUILD_NUMBER=1
 
@@ -45,11 +50,12 @@ prepare() {
   export USE_OPENCV=1
   export USE_SYSTEM_NCCL=1
   export MAGMA_HOME=/opt/magma
-  export CUDAHOSTCXX=g++
+  export CUDAHOSTCXX=/opt/cuda/bin/g++
   export CUDA_HOME=/opt/cuda
   export CUDNN_LIB_DIR=/usr/lib
   export CUDNN_INCLUDE_DIR=/usr/include
   export TORCH_NVCC_FLAGS="-Xfatbin -compress-all"
+
 }
 
 build() {
