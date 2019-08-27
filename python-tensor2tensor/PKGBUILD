@@ -1,6 +1,6 @@
 pkgname=python-tensor2tensor
 _pkgname=tensor2tensor
-pkgver=1.13.4
+pkgver=1.14.0
 pkgrel=1
 pkgdesc="Library of deep learning models and datasets."
 arch=('any')
@@ -13,7 +13,7 @@ depends=('python' 'python-bz2file' 'python-flask' 'python-future' 'python-gevent
 'python-sympy' 'python-six' 'python-tqdm' 'python-tensorflow')
 makedepends=('python-setuptools')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/v${pkgver}.tar.gz")
-md5sums=('e4ee93f2e5b98caeb7547e6fb7fc672f')
+md5sums=('0a4259ecab266de4bead447a8c2bf4b3')
 
 build() {
   msg "Building Python 3"
