@@ -1,6 +1,6 @@
 pkgname=python-keras
 _pkgname=keras
-pkgver=2.2.4
+pkgver=2.2.5
 pkgrel=1
 pkgdesc="The Python Deep Learning library"
 _github="keras-team/keras"
@@ -11,7 +11,7 @@ depends=('python-numpy' 'python-scipy' 'python-h5py' 'python-six' 'python-yaml' 
 optdepends=('python-keras-preprocessing' 'python-keras-applications')
 makedepends=('python' 'python-setuptools')
 source=("https://github.com/keras-team/keras/archive/$pkgver.tar.gz")
-md5sums=('be58efaeb9a670c387551c63fb09c71d')
+md5sums=('843a16bc115f1ea4249ff6e7c99fb819')
 
 build() {
   cd "$srcdir/$_pkgname-$pkgver"
