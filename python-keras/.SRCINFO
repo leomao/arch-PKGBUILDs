@@ -1,6 +1,6 @@
 pkgbase = python-keras
 	pkgdesc = The Python Deep Learning library
-	pkgver = 2.2.5
+	pkgver = 2.3.0
 	pkgrel = 1
 	url = https://keras.io/
 	arch = x86_64
@@ -15,8 +15,8 @@ pkgbase = python-keras
 	depends = python-tensorflow
 	optdepends = python-keras-preprocessing
 	optdepends = python-keras-applications
-	source = https://github.com/keras-team/keras/archive/2.2.5.tar.gz
-	md5sums = 843a16bc115f1ea4249ff6e7c99fb819
+	source = https://github.com/keras-team/keras/archive/2.3.0.tar.gz
+	md5sums = 0bcef19c287561c13057a08e9cab65b5
 
 pkgname = python-keras
 
