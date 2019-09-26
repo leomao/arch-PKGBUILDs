@@ -4,7 +4,7 @@
 # Contributor: Angel 'angvp' Velasquez <angvp[at]archlinux.com.ve>
 # Adapted to mkl by Simone Riva
 pkgname="python-numpy-mkl-gcc"
-pkgver=1.17.1
+pkgver=1.17.2
 pkgrel=1
 pkgdesc="Scientific tools for Python compiled with intel mkl using gcc"
 arch=('x86_64')
@@ -23,7 +23,7 @@ source=(
   'site.cfg'
 )
 
-sha256sums=('c47202690e013ea2ee170f0e8f5dd7f5f667e2180c84d5b6e7ec2e284c34228a'
+sha256sums=('689d9852d162dc7cda4aa563cdd1f5af166b6878493aeb98d584b5edefcea4b2'
             'ae2113417043800eb7fe3d2282ebb5bed051d8562e137563c4a0f785b7e25dc4')
 
 build() {
