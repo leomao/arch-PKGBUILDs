@@ -2,7 +2,7 @@
 pkgname=fasttext
 _pkgname=fastText
 pkgver=0.9.1
-pkgrel=1
+pkgrel=2
 pkgdesc="Library for fast text representation and classification"
 arch=('any')
 url="https://github.com/facebookresearch/fastText"
