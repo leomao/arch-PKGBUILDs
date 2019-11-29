@@ -1,7 +1,7 @@
 pkgbase = magma-mkl
 	pkgdesc = Provides a dense linear algebra library similar to LAPACK but for heterogeneous/hybrid architectures, starting with current 'Multicore+GPU' systems. (with CUDA and MKL)
-	pkgver = 2.5.1
-	pkgrel = 2
+	pkgver = 2.5.2
+	pkgrel = 1
 	url = http://icl.cs.utk.edu/magma/
 	arch = x86_64
 	license = custom
@@ -13,8 +13,8 @@ pkgbase = magma-mkl
 	provides = magma
 	conflicts = magma
 	options = staticlibs
-	source = http://icl.cs.utk.edu/projectsfiles/magma/downloads/magma-2.5.1.tar.gz
-	sha1sums = 721a1f2e8aeda2bb4ffd6c05a030798292895399
+	source = http://icl.cs.utk.edu/projectsfiles/magma/downloads/magma-2.5.2.tar.gz
+	sha1sums = f69713f031a569b8b0865585c62346472c67033e
 
 pkgname = magma-mkl
 
