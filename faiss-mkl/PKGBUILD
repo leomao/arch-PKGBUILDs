@@ -12,7 +12,7 @@
 
 pkgname=faiss-mkl
 _pkgname=faiss
-pkgver=1.6.0
+pkgver=1.6.1
 pkgrel=1
 provides=('faiss')
 conflicts=('faiss')
@@ -23,7 +23,7 @@ url="https://github.com/facebookresearch/faiss"
 license=(BSD)
 depends=("cuda" "python" "python-numpy" "intel-mkl")
 makedepends=("swig")
-sha1sums=('105f5d8b9d4ab60beb4db8e3349a71cf2f881422')
+sha1sums=('af09d8737cbc5ce2212969ba845b6d367ad9db4a')
 source=("$pkgname-$pkgver.tar.gz::${url}/archive/v${pkgver}.tar.gz")
 
 #prepare() {
@@ -32,7 +32,7 @@ source=("$pkgname-$pkgver.tar.gz::${url}/archive/v${pkgver}.tar.gz")
 
 build() {
   cd "${srcdir}/$_pkgname-$pkgver"
-  export LDFLAGS="-L/opt/intel/mkl/lib/intel64"
+  export LDFLAGS="-L/opt/intel/mkl/lib"
   ./configure --with-cuda=/opt/cuda --prefix=/usr
   make all
   make -C python
