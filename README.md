@@ -1,5 +1,8 @@
 # PKGBUILDs
 
+> Nothing left. All packages are either in the Arch official repo or not
+> maintained by myself anymore.
+
 Use `-O3` and `-march=native` (or `-mtune=native` if you want to distribute
 packages to other computers) in your `/etc/makepkg.conf` for maximum performance.
 
